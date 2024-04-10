@@ -4,7 +4,7 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 import model.Status;
-
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -23,10 +23,9 @@ public class TaskManager {
     public Task create(Task task){                     // 1.1 Создать задачу!
         task.setId(generateId());
         tasks.put(task.getId(), task);
-        System.out.println(task);
         return task;
     }
-      public void update(Task task){                    // 1.2 Обновить задачу!
+    public void update(Task task){                    // 1.2 Обновить задачу!
         tasks.put(task.getId(), task);
     }
     public Task get(int id) {return tasks.get(id);}          // 1.3  Получить задачу!
@@ -38,12 +37,9 @@ public class TaskManager {
         tasks.clear();
     }
     public Epic createEpic(Epic epic) {                     // 2.1 Создать Эпик!
-
         epic.setId(generateId());
         epic.setStatus(updateEpicStatus(epic));
         epics.put(epic.getId(), epic);
-
-        System.out.println(epic);
         return epic;
     }
     public void updateEpic(Epic epic){                      // 2.2 Обновить Эпик
@@ -57,54 +53,35 @@ public class TaskManager {
     }
     public void  deleteEpic(int id) {                        // 2.4 Удалить эпик
          Epic epic = epics.get(id);
-         List <SubTask> list =  epic.getSubTaskList();
-         if (!list.isEmpty()) {
-             int i;
-             for (i = list.size(); i >= 0; i--) {
-                 subTasks.remove(list.get(i).getId());
-                 epic.deleteSubTask(list.get(i));
+         HashSet<SubTask> set =  epic.getSubTaskSet();
+         if (!set.isEmpty()) {
+             for (SubTask subTask: set) {
+                 subTasks.remove(subTask.getId());
+                 epic.deleteSubTask(subTask);
              }
-             epics.remove(id);
          }
+         epics.remove(id);
     }
     public List<Epic> getAllEpics() {                         // 2.5 Получить все эпики!
-
         return new ArrayList<>(epics.values());
     }
     public void  deleteAllEpic() {                         // 2.6 Удалить все эпики
-        for (int id : epics.keySet()) {
-            Epic epic = epics.get(id);
-            List <SubTask> list =  epic.getSubTaskList();
-            if (!list.isEmpty()) {
-                int i;
-                for (i = list.size(); i >= 0; i--)
-                subTasks.remove(list.get(i).getId());
-                epic.deleteSubTask(list.get(i));
-            }
-        }
+        subTasks.clear();
         epics.clear();
     }
-
-
     public SubTask createSubTask (SubTask subTask){          // 3.1 Создать подзадачу
         subTask.setId(generateId());
-    //    System.out.println(subTasks);
         Epic epic = epics.get(subTask.getEpic().getId());
         epic.addSubTask(subTask);
         subTasks.put(subTask.getId(), subTask);
         updateEpicStatus(epic);
         epics.put(epic.getId(), epic);
-        System.out.println(subTask);
         return subTask;
     }
     public void updateSubTask (SubTask subTask){             // 3.2 Обновить подзадачу
-        //subTasks.get(subTask.getId());
         subTasks.put(subTask.getId(), subTask);
         Epic epic = epics.get(subTask.getEpic().getId());
-        //epic.addSubTask(subTask);
-
-        updateEpicStatus(epic);
-
+        epic.setStatus(updateEpicStatus(epic));
         epics.put(epic.getId(), epic);
     }
     public SubTask getSubTask ( int id){
@@ -133,10 +110,10 @@ public class TaskManager {
             epics.put(epic.getId(), epic);
         }
     }
-    public List<SubTask> getEpicAllSubTasks (int id) {                    // 4.1 Все подзадачи эпика
+    public HashSet<SubTask> getEpicAllSubTasks (int id) {                    // 4.1 Все подзадачи эпика
         Epic epic = epics.get(id);
-        List <SubTask> list =  epic.getSubTaskList();
-        return list;
+        HashSet<SubTask> set =  epic.getSubTaskSet();
+        return set;
     }
     public int generateId(){
         return seq++;
@@ -145,7 +122,7 @@ public class TaskManager {
         //this.epic = epic;
         boolean allStatusNew = true;
         boolean allStatusDone = true;
-       List<SubTask> subTaskInEpic = epic.getSubTaskList();
+       HashSet<SubTask> subTaskInEpic = epic.getSubTaskSet();
         if (subTaskInEpic.isEmpty()) {
             return Status.NEW;
         } else {

@@ -14,30 +14,25 @@ public class SubTask extends Task {
         this.description = description;
     }
     public SubTask(String name, Status status, String description) {
-
         super(name, status, description);
         this.name = name;
         this.status = status;
         this.description = description;
     }
-
     @Override
     public void setStatus(Status status) {
         this.status = status;
     }
-
     @Override
     public Status getStatus() {
         return status;
     }
-
     @Override
     public void setId(int id) { this.id = id; }
     @Override
     public int getId() { return id; }
     public void setEpic(Epic epic){ this.epic = epic;}
     public Epic getEpic() {return epic;}
-
     @Override
     public String toString() {
         return "SubTask{" +
