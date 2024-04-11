@@ -13,13 +13,13 @@ public class SubTask extends Task {
         this.status = status;
         this.description = description;
     }
-    public SubTask(String name, Status status, String description) {
+  /*  public SubTask(String name, Status status, String description) {
         super(name, status, description);
         this.name = name;
         this.status = status;
         this.description = description;
     }
-    @Override
+  */  @Override
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -31,7 +31,7 @@ public class SubTask extends Task {
     public void setId(int id) { this.id = id; }
     @Override
     public int getId() { return id; }
-    public void setEpic(Epic epic){ this.epic = epic;}
+ //   public void setEpic(Epic epic){ this.epic = epic;}
     public Epic getEpic() {return epic;}
     @Override
     public String toString() {

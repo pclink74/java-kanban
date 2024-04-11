@@ -1,4 +1,4 @@
-import Service.TaskManager;
+import service.TaskManager;
 import model.Epic;
 import model.Status;
 import model.SubTask;
@@ -27,8 +27,8 @@ public class Main {
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAll());
         System.out.println(taskManager.getAllSubTasks());
-        System.out.println("Удаляем testTask2  и testEpic2");
-        taskManager.delete(testTask2.getId());
+        System.out.println("Удаляем testTask1  и testEpic2");
+        taskManager.delete(testTask1.getId());
         taskManager.deleteEpic(testEpic2.getId());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAll());
