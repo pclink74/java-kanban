@@ -11,18 +11,12 @@ public class Epic extends Task {
         this.status = status;
         this.description = description;
         subTasksSet = new HashSet<>();
-        //updateStatus;
     }
     public Epic (String name, String description) {
         super(name, Status.NEW, description);
         this.name = name;
         this.description = description;
         subTasksSet = new HashSet<>();
-    }
-
-    @Override
-    public Status getStatus() {
-        return status;
     }
     public HashSet<SubTask> getSubTaskSet() {
         return subTasksSet;
@@ -32,9 +26,6 @@ public class Epic extends Task {
     }
     public void deleteSubTask(SubTask subTask) {
         subTasksSet.remove(subTask);
-    }
-    public int getId(){
-        return id;
     }
     @Override
     public String toString() {
