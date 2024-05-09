@@ -18,6 +18,7 @@ public class Epic extends Task {
         this.description = description;
         subTasksSet = new HashSet<>();
     }
+  //  public int getEpicId(){return id;}
     public HashSet<SubTask> getSubTaskSet() {
         return subTasksSet;
     }

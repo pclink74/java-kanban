@@ -1,3 +1,4 @@
+import service.Managers;
 import service.TaskManager;
 import model.Epic;
 import model.Status;
@@ -8,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
         Task testTask1=taskManager.create(new Task("Первая задача", Status.NEW, "Это первая задача"));
         Task testTask2 = taskManager.create(new Task("Вторая задача", Status.NEW, "Это вторая задача"));
         Epic testEpic1 = taskManager.createEpic((new Epic("первый эпик", "Это первый Эпик")));
@@ -33,5 +34,8 @@ public class Main {
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAll());
         System.out.println(taskManager.getAllSubTasks());
+        System.out.println(taskManager.get(1));
+        System.out.println(taskManager.getSubTask(3));
+        System.out.println("История - " + taskManager.getHistory());
     }
 }
