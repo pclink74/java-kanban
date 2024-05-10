@@ -12,11 +12,9 @@ public interface TaskManager {
 
     void update(Task task);
 
-    Task get(int id)          // 1.3  Получить задачу!
-    ;
+    Task get(int id);
 
-    void delete(int id)            // 1.4 Удалить задачу!
-    ;
+    void delete(int id);
 
     List<Task> getAll();
 

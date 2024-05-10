@@ -3,7 +3,6 @@ package service;
 import model.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -14,14 +13,10 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void add(Task task) {
         if (!(history.size() < historyLength)){ history.remove(0);}
         history.add(task);
-
     }
 
     @Override
     public List<Task> getAllHistory() {
         return history;
     }
-
-//
-
 }

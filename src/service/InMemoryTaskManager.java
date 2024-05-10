@@ -123,7 +123,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<SubTask> getAllSubTasks() {                    // 3.5 Получить все подзадачи!
         return new ArrayList<>(subTasks.values());
-    }
+    } //3.5 Получить все подзадачи
     @Override
     public void deleteAllSubTask() {                           // 3.6 Удалить все подзадачи
         if (subTasks.isEmpty()) {
@@ -147,12 +147,6 @@ public class InMemoryTaskManager implements TaskManager {
             return set;
         }
     }
-
-    // @Override
-    // public List<Integer> getHistory() {
-    //    return List.of();
-    // }
-
     private int generateId(){
         return seq++;
     }

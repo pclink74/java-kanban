@@ -24,7 +24,6 @@ class InMemoryTaskManagerTest {
         HashMap<Integer, Epic> epics = new HashMap<>();
         HashMap<Integer, SubTask> subTasks = new HashMap<>();
         int seq = 0;
-      //  TaskManager taskManager = Managers.getDefault();
     }
     @Test
     void  dasTaskCreateCorrect() {
@@ -37,7 +36,7 @@ class InMemoryTaskManagerTest {
         final List<Task> tasks = taskManager.getAll();
         assertNotNull(tasks, "Задачи не возвращаются.");
         assertEquals(1, tasks.size(), "Неверное количество задач.");
-        assertEquals(task1, tasks.get(0), "Задачи не совпадают.");
+        assertEqualsTask(task1, tasks.get(0), "Не совпадает ");
 
     }
     @Test
@@ -49,7 +48,7 @@ class InMemoryTaskManagerTest {
         task1.setStatus(Status.IN_PROGRESS);
         final Task savedTask = task1;
         taskManager.update(task1);
-        assertEquals(task1, savedTask, "Задача не не обновилась.");
+        assertEqualsTask(task1, savedTask, "Не обновилось ");
     }
     @Test
     void dasTaskIdGetCorrect() {
@@ -93,7 +92,7 @@ class InMemoryTaskManagerTest {
         Task task2=taskManager.create(new Task("Задача Тест 2", Status.NEW, "Это Задача Тест 2"));
         taskManager.deleteAllTasks();
         final List<Task> tasks = taskManager.getAll();
-        assertNull(tasks, "Задачи не удаляются.");
+        assertEquals(0, tasks.size(), "Задачи не удаляются.");
     }
     @Test
     void dasEpicCreateCorrect() {
@@ -115,8 +114,7 @@ class InMemoryTaskManagerTest {
         testEpic1.setDescription("Это второй Эпик");
         taskManager.updateEpic(testEpic1);
         Epic savedEpic = taskManager.getEpic(epicId);
-        assertEquals(testEpic1.getName(), savedEpic.getName(), "Имя не обновилось");
-        assertEquals(testEpic1.getName(), savedEpic.getName(), "Описание не обновилось");
+        assertEqualsTask(testEpic1, savedEpic, "Не обновилось  ");
     }
     @Test
     void dasEpicGetCorrect() {
@@ -125,8 +123,8 @@ class InMemoryTaskManagerTest {
         final int epicId = testEpic1.getId();
         Epic savedEpic = taskManager.getEpic(epicId);
         assertNotNull(savedEpic, "Эпик не получен");
-        assertEquals(testEpic1.getName(), savedEpic.getName(), "Имя не совпадает ");
-        assertEquals(testEpic1.getName(), savedEpic.getName(), "Описание не совпадает");
+        assertEqualsTask(testEpic1, savedEpic, "Не совпадает ");
+
     }
     @Test
     void dasEpicDeleteCorrect() {
@@ -154,15 +152,15 @@ class InMemoryTaskManagerTest {
         Epic testEpic2 = taskManager.createEpic((new Epic("Тестовый эпик2", "Это второй Эпик")));
         taskManager.deleteAllEpic();
         final List<Epic> epics = taskManager.getAllEpics();
-        final List<SubTask> subTasks = taskManager.getAllSubTasks();
-        assertNull(epics, "Эпики не удалены.");
-        assertNull(subTasks, "Подзадачи эпиков не удалены");
+        final List<SubTask> subTasks  = taskManager.getAllSubTasks();
+       // System.out.println(subTasksFromTaskManager);
+        assertEquals(0, epics.size() , "Эпики не удалены.");
+        assertEquals(0, subTasks.size(), "Подзадачи эпиков не удалены");
     }
     @Test
     void  dasSubTaskCreateCorrect() {
         TaskManager taskManager = Managers.getDefault();
         Epic testEpic1 = taskManager.createEpic((new Epic("Тестовый эпик1", "Это первый Эпик")));
-        // final int epicId = testEpic1.getId();
         SubTask subTask1 = taskManager.createSubTask(new SubTask("Подзадача 1", Status.NEW, "Этоподзадача 1", testEpic1));
         final int subTaskId = subTask1.getId();
         final SubTask savedSubTask = taskManager.getSubTask(subTaskId);
@@ -171,6 +169,68 @@ class InMemoryTaskManagerTest {
         final List<SubTask> subTasks = taskManager.getAllSubTasks();
         assertNotNull(subTasks, "Подзадачи не возвращаются.");
         assertEquals(1, subTasks.size(), "Неверное количество подзадач.");
-        assertEquals(subTask1, subTasks.get(0), "подзадачи не совпадают.");
+        assertEqualsTask(subTask1, subTasks.get(0), "Не совпадает");
     }
+    @Test
+    void dasSubTaskUpdateCorrect() {
+        TaskManager taskManager = Managers.getDefault();
+        Epic testEpic1 = taskManager.createEpic((new Epic("Тестовый эпик1", "Это первый Эпик")));
+        SubTask subTask1 = taskManager.createSubTask(new SubTask("Подзадача 1", Status.NEW, "Этоподзадача 1", testEpic1));
+        final int subTaskId = subTask1.getId();
+        //SubTask savedSubTask = taskManager.getSubTask(subTaskId);
+        subTask1.setStatus(Status.IN_PROGRESS);
+        subTask1.setName("Подзадача 1");
+        subTask1.setDescription("Этоподзадача 2");
+        Task savedSubTask = subTask1;
+        taskManager.updateSubTask(subTask1);
+        assertEqualsTask(subTask1, savedSubTask, "Не обновился");
+    }
+    @Test
+    void dasSubTaskGetCorrect() {
+        TaskManager taskManager = Managers.getDefault();
+        Epic testEpic1 = taskManager.createEpic((new Epic("Тестовый эпик1", "Это первый Эпик")));
+        SubTask subTask1 = taskManager.createSubTask(new SubTask("Подзадача 1", Status.NEW, "Этоподзадача 1", testEpic1));
+        final int subTaskId = subTask1.getId();
+        Task savedSubTask = taskManager.getSubTask(subTaskId);
+        assertNotNull(savedSubTask, "Подзадача не получена");
+        assertEqualsTask(subTask1, savedSubTask, "Не не совпадает");
+    }
+    @Test
+    void dasSubTaskDeleteCorrect() {
+        TaskManager taskManager = Managers.getDefault();
+        Epic testEpic1 = taskManager.createEpic((new Epic("Тестовый эпик1", "Это первый Эпик")));
+        SubTask subTask1 = taskManager.createSubTask(new SubTask("Подзадача 1", Status.NEW, "Это подзадача 1", testEpic1));
+        final int subTaskId = subTask1.getId();
+        taskManager.deleteSubTask(subTaskId);
+        SubTask savedSubTask = taskManager.getSubTask(subTaskId);
+        assertNull(savedSubTask, "Эпик не удалён");
+    }
+    @Test
+    void dasGetAllSubTaskCorrect() {
+        TaskManager taskManager = Managers.getDefault();
+        Epic testEpic1 = taskManager.createEpic((new Epic("Тестовый эпик1", "Это первый Эпик")));
+        SubTask subTask1 = taskManager.createSubTask(new SubTask("Подзадача 1", Status.NEW, "Это подзадача 1", testEpic1));
+        SubTask subTask2 = taskManager.createSubTask(new SubTask("Подзадача 2", Status.NEW, "Это подзадача 2", testEpic1));
+        final List<SubTask> subTasks = taskManager.getAllSubTasks();
+        assertNotNull(subTasks, "Подзадачи не возвращаются.");
+        assertEquals(2, subTasks.size(), "Неверное количество подзадач.");
+    }
+    @Test
+    void dasDeleteAllSubTaskCorrect() {
+        TaskManager taskManager = Managers.getDefault();
+        Epic testEpic1 = taskManager.createEpic((new Epic("Тестовый эпик1", "Это первый Эпик")));
+        Epic testEpic2 = taskManager.createEpic((new Epic("Тестовый эпик2", "Это второй Эпик")));
+        SubTask subTask1 = taskManager.createSubTask(new SubTask("Подзадача 1", Status.NEW, "Это подзадача 1", testEpic1));
+        SubTask subTask2 = taskManager.createSubTask(new SubTask("Подзадача 2", Status.NEW, "Это подзадача 2", testEpic2));
+        taskManager.deleteAllSubTask();
+        final List<SubTask> savedSubTasks = taskManager.getAllSubTasks();
+        assertEquals(0, savedSubTasks.size(), "Подзадачи эпиков не удалены");
+    }
+
+    private static void assertEqualsTask (Task expected, Task actual, String message) {
+        assertEquals(expected.getName(), actual.getName(), message + " Name");
+        assertEquals(expected.getDescription(), actual.getDescription(), message + " Description");
+        assertEquals(expected.getStatus(), actual.getStatus(), message + " STATUS");
+    }
+
 }
