@@ -18,9 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
 
-//    int historyLength =10;
- //   private List<Task> history = new ArrayList<>(historyLength);
-
     @Test
     void shouldAddTaskInHistory() {
         InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
