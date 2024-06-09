@@ -2,9 +2,10 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubTaskTest {
+
     @Test
     void shouldEqualWithCopy() {
         Epic epic = new Epic("Эпик 1", Status.NEW, "Это первый эпик");
