@@ -6,7 +6,7 @@ public class Epic extends Task {
 
     private final HashSet<SubTask> subTasksSet;
 
-    public Epic (String name, Status status, String description) {
+    public Epic(String name, Status status, String description) {
         super(name, status, description);
         this.name = name;
         this.status = status;
@@ -14,7 +14,7 @@ public class Epic extends Task {
         subTasksSet = new HashSet<>();
     }
 
-    public Epic (String name, String description) {
+    public Epic(String name, String description) {
         super(name, Status.NEW, description);
         this.name = name;
         this.description = description;
