@@ -15,7 +15,7 @@ public class Task {
         this.description = description;
     }
 
-    public Task (String name, Status status, String description) {
+    public Task(String name, Status status, String description) {
         this.name = name;
         this.status = status;
         this.description = description;
