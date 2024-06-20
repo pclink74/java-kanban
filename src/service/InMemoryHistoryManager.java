@@ -75,9 +75,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getAllHistory() {
-        if (first == null) {
-            return null;
-        }
         ArrayList<Task> historyList = new ArrayList<>();
         Node current = first;
         while (current != null) {

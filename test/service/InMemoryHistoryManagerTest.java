@@ -85,6 +85,6 @@ class InMemoryHistoryManagerTest {
         inMemoryHistoryManager.remove(task2.getId());
         inMemoryHistoryManager.remove(task3.getId());
         System.out.println(inMemoryHistoryManager.getAllHistory());
-        assertNull(inMemoryHistoryManager.getAllHistory(), "Задача в середине списка не удаляется");
+        assertTrue(inMemoryHistoryManager.getAllHistory().isEmpty(), "История полностью не очищается");
     }
 }
