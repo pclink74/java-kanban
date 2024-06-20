@@ -20,35 +20,30 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    HashMap<Integer, Node> history = new HashMap<>();
-    Node first;
-    Node last;
+    private final HashMap<Integer, Node> history = new HashMap<>();
+    private Node first;
+    private Node last;
 
     void linkLast(Task task) {
         final Node l = last;
         final Node newNode = new Node(task, l, null);
         if (l == null) {
             first = newNode;
-            last = newNode;
         } else {
             l.next = newNode;
-            last = newNode;
         }
+        last = newNode;
         history.put(task.getId(), newNode);
-    }
-
-    ArrayList<Task> getTask() {
-        ArrayList<Task> list = new ArrayList<>();
-        Node current = first;
-        while (current != null) {
-            list.add(current.item);
-            current = current.next;
-        }
-        return list;
     }
 
     void removeNode(Node node) {
         if (node == null) {
+            return;
+        }
+        if (node.prev == node.next) {
+            first = null;
+            last = null;
+            history.clear();
             return;
         }
         if (node.prev != null) {
@@ -68,6 +63,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
+        if (task == null) {
+            return;
+        }
         Node node = history.get(task.getId());
         if (node != null) {
             removeNode(node);
@@ -77,6 +75,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getAllHistory() {
+        if (first == null) {
+            return null;
+        }
         ArrayList<Task> historyList = new ArrayList<>();
         Node current = first;
         while (current != null) {
