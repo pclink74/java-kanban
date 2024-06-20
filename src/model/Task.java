@@ -15,7 +15,7 @@ public class Task {
         this.description = description;
     }
 
-    public Task (String name, Status status, String description) {
+    public Task(String name, Status status, String description) {
         this.name = name;
         this.status = status;
         this.description = description;
@@ -56,10 +56,10 @@ public class Task {
 
     public String toString() {
         return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", status=" + status +
-                ", description='" + description + '\'' +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                ", status = " + status +
+                ", description = '" + description + '\'' +
                 '}';
     }
 
